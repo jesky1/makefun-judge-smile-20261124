@@ -39,6 +39,15 @@ function validateLine(line) {
   if (line.includes('\n') || line.includes('\r')) {
     throw new Error('Line must be a single line (no newline characters).');
   }
+  // The gate rejects whitespace-only text, so fail loudly here too.
+  if (line.trim().length === 0) {
+    throw new Error('Line must not be only whitespace.');
+  }
+  // No leading or trailing spaces: the judge reads the file exactly,
+  // so stray padding would be part of the entry.
+  if (line !== line.trim()) {
+    throw new Error('Line must not start or end with whitespace.');
+  }
 }
 
 validateLine(SMILE_LINE);
